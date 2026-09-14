@@ -22,3 +22,13 @@ Mon Sep 14 01:47:28 AM UTC 2026:
  tests:  11|2
 total_score: 40/60
 5e6ac78
+Mon Sep 14 01:50:10 AM UTC 2026: 
+ hashmap.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
+Compilation failed
+/nix/store/mkvc0lnnpmi604rqsjdlv1pmhr638nbd-binutils-2.44/bin/ld: /tmp/ccNWc4cQ.o: in function `next_test':
+/home/runner/workspace/test.c:395:(.text+0x13f3): undefined reference to `nextMap'
+/nix/store/mkvc0lnnpmi604rqsjdlv1pmhr638nbd-binutils-2.44/bin/ld: /home/runner/workspace/test.c:408:(.text+0x1458): undefined reference to `nextMap'
+/nix/store/mkvc0lnnpmi604rqsjdlv1pmhr638nbd-binutils-2.44/bin/ld: /home/runner/workspace/test.c:417:(.text+0x1494): undefined reference to `nextMap'
+collect2: error: ld returned 1 exit status
+31432c2
