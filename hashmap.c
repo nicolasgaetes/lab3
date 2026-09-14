@@ -183,7 +183,30 @@ Pair * nextMap(HashMap * map) {
 
 void enlarge(HashMap * map) {
     enlarge_called = 1; //no borrar (testing purposes)
-
+    //guardo el arreglo antiguo
+    Pair** old_buckets = map->buckets;
+    //guardo la capacidad antigua
+    long old_capacity = map->capacity;
+    //duplico la capacidad
+    map->capacity = map->capacity * 2;
+    //creo un nuevo arreglo de buckets con la nueva capacidad
+    map->buckets = (Pair**) malloc(sizeof(Pair*) * map->capacity);
+    //inicializo todas las posiciones en NULL
+    for (long i = 0 ; i < map->capacity; i++) {
+        map->buckets[i] = NULL;
+    }
+    //reinicio el tamaño ya que volvere a insertar los elementos
+    map->size = 0;
+    //reinserto los elementos validos del arreglo antiguo
+    for (long i = 0; i < old_capacity; i++) {
+        //si hay un par valido
+        if (old_buckets[i] != NULL && old_buckets[i]->key != NULL) {
+            //reinserto usando insertMap ya que recalcula hash con nueva capacidad
+            insertMap(map, old_buckets[i]->key, old_buckets[i]->value);
+        }
+    }
+    //libero la memoria del arreglo antiguo
+    free(old_buckets);
 
 }
 
