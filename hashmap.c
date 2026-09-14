@@ -108,7 +108,26 @@ Pair * searchMap(HashMap * map,  char * key) {
 // Recuerde actualizar la variable size.
 
 void eraseMap(HashMap * map,  char * key) {    
-
+    //calculo la posicion inicial
+    long index = hash(key, map->capacity);
+    //recorro hasta capacity para evitar un loop infinito
+    for (long i = 0; i < map->capacity ; i++){
+        //si encuentro una casilla NULL, la key no existe
+        if (map->buckets[index] == NULL){
+            return;
+        }
+        //si encontre la clave buscada
+        if (map->buckets[index]->key != NULL && is_equal(map->buckets[index]->key, key)) {
+            //invalido el par (no lo elimino, solo anulo la key)
+            map->buckets[index]->key = NULL;
+            //disminuyo el tamaño del mapa
+            map->size--;
+            //termino la funcion
+            return;
+        }
+        //avanzo a la siguiente posicion de manera circular
+        index = (index + 1) % map->capacity;
+    }
 
 }
 
