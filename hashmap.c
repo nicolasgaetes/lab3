@@ -45,14 +45,21 @@ int is_equal(void* key1, void* key2){
 // Inicialice el índice current a -1.
 
 HashMap * createMap(long capacity) {
+    //reservo la memoria para el hashmap
     HashMap *map = (HashMap*) malloc(sizeof(HashMap));
+    //guardo la capacidad
     map->capacity = capacity;
+    //inicializo el tamaño en 0
     map->size = 0;
+    //inicializo el current en -1
     map->current = -1;
+    //reservo la memoria para el arreglo de buckets
     map->buckets = (Pair**) malloc(sizeof(Pair*) * capacity);
+    //inicializo el arreglo con todas las casillas en NULL
     for (long i = 0 ; i < capacity ; i++) {
         map->buckets[i] = NULL;
     }
+    //retorno el mapa creado
     return map;
 }
 
@@ -66,18 +73,28 @@ HashMap * createMap(long capacity) {
 // No inserte claves repetidas. Recuerde que el arreglo es circular. Recuerde actualizar la variable size.
 
 void insertMap(HashMap * map, char * key, void * value) {
+    //calculo la posicion inicial donde deberia ir la key
     long index = hash(key, map->capacity);
+    //recorro hasta capacity para evitar un loop infinito
     for (long i = 0; i < map->capacity; i++){
+        //si la casilla esta vacia o es invalida, significa que podemos insertar
         if (map->buckets[index] == NULL || map->buckets[index]->key == NULL) {
+            //creo un nuevo par (key, value)
             Pair *newPair = createPair(key, value);
+            //guardo la posicion encontrada en el par
             map->buckets[index] = newPair;
+            //actualizo el indice del mapa
             map->current = index;
+            //aumento la cantidad de elementos del mapa
             map->size++;
+            //retorno ya que logramos insertar
             return;
         }
-         if (is_equal(map->buckets[index]->key, key)) {
-             return;
+        //si la key ya existe en esa pos, no la inserto
+        if (is_equal(map->buckets[index]->key, key)) {
+            return;
         }
+        //avanzo a la siguiente pos usando un recorrido circular
         index = (index + 1) % map->capacity;
     }
 }
@@ -89,16 +106,30 @@ void insertMap(HashMap * map, char * key, void * value) {
 //   c - Si llega a una casilla nula, retorne NULL inmediatamente (no siga avanzando, la clave no está)
 // Recuerde actualizar el índice current a la posición encontrada. Recuerde que el arreglo es circular.
 
-Pair * searchMap(HashMap * map,  char * key) {   
+Pair * searchMap(HashMap * map,  char * key) {
+    //calculo la posicion inicial
     long index = hash(key, map->capacity);
+    //guardo el indice inicial
+
+    //mientras la posicion actual NO sea NULL
     while (map->buckets[index] != NULL) {
+        //comparo la clave almacenada en esa pos con la clave buscada
         if (is_equal(map->buckets[index]->key, key)) {
+            //si son iguales, actualizo el indice actual del mapa
             map->current = index;
+            //retorno el par encontrado que seria la clave y el valor
             return map->buckets[index];
         }
+        //si no era la clave, avanzo a la siguiente pos
         index = (index + 1) % map->capacity;
+        //si volvi al indice inicial y no se encontro nada, hago break
+
     }
+    //la clave no esta en el mapa
     return NULL;
+
+    // 0   1    2     3   4
+    //[A] [B] [NULL] [C] [D]
 }
 
 // 4. Implemente la función void eraseMap(HashMap * map, char * key). 
