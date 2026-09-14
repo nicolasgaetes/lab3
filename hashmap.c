@@ -151,7 +151,21 @@ Pair * firstMap(HashMap * map) {
 }
 
 Pair * nextMap(HashMap * map) {
-
+    //parto desde la siguiente posicion del current
+    long index = map->current + 1;
+    //recorro hasta el final del arreglo
+    while (index < map->capacity) {
+        //si encuentro un par valido
+        if (map->buckets[index] != NULL && map->buckets[index]->key != NULL) {
+            //actualizo el current
+            map->current = index;
+            //retorno el siguiente par
+            return map->buckets[index];
+        }
+        //avanzo
+        index++;
+    }
+    //si no hay mas elementos validos, retorno NULL
     return NULL;
 }
 
