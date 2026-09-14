@@ -136,7 +136,17 @@ void eraseMap(HashMap * map,  char * key) {
 // Recuerde actualizar el índice.
 
 Pair * firstMap(HashMap * map) {
-
+    //recorro desde el inicio del arreglo
+    for (long i = 0 ; i < map->capacity ; i++) {
+        //si la casilla no es NULL y la key es valida
+        if (map->buckets[i] != NULL && map->buckets[i]->key != NULL) {
+            //actualizo el current al indice encontrado
+            map->current = i;
+            //retorno el primer par valido
+            return map->buckets[i];
+        }
+    }
+    //si no hay elementos validos, retorno NULL
     return NULL;
 }
 
